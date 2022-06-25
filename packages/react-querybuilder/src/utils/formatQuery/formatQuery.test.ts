@@ -1170,10 +1170,60 @@ describe('validation', () => {
     it('should invalidate a mongodb query', () => {
       expect(
         formatQuery(
-          { id: 'root', combinator: 'and', rules: [] },
-          { format: 'mongodb', validator: () => false }
+            {
+              "rules": [],
+              "combinator": "and",
+              "not": false,
+              "id": "g-0.27865867738483674"
+            },
+          { format: 'mongodb', validator: () => false, fallbackExpression: '' }
         )
-      ).toBe('{"$and":[{"$expr":true}]}');
+      ).toBe('{}');
+      expect(
+        formatQuery(
+            {
+              "rules": [
+                {
+                  "field": "_id",
+                  "operator": "=",
+                  "valueSource": "value",
+                  "value": "asd"
+                },
+                {
+                  "id": "r-0.3559341682421391",
+                  "field": "ACC360Objecttype",
+                  "operator": "=",
+                  "valueSource": "value",
+                  "value": "qwert"
+                },
+                {
+                  "id": "g-0.5597784251124902",
+                  "rules": [
+                    {
+                      "id": "r-0.9890586603306992",
+                      "field": "ACC360Objecttype",
+                      "operator": "=",
+                      "valueSource": "value",
+                      "value": "orval"
+                    },
+                    {
+                      "id": "r-0.9890586603306992",
+                      "field": "ACC360Objecttype",
+                      "operator": "=",
+                      "valueSource": "value",
+                      "value": "orval2"
+                    }
+                  ],
+                  "combinator": "or",
+                  "not": false
+                }
+              ],
+              "combinator": "and",
+              "not": false
+            },
+          { format: 'mongodb' }
+        )
+      ).toBe(`{"_id":"asd","ACC360Objecttype":"qwert","$or":[{"ACC360Objecttype":"orval"},{"ACC360Objecttype":"orval2"}]}`);
     });
 
     it('should invalidate a mongodb rule', () => {
@@ -1202,7 +1252,7 @@ describe('validation', () => {
             fields: [{ name: 'field', validator: () => true }],
           }
         )
-      ).toBe('{"$and":[{"$expr":true}]}');
+      ).toBe('{}');
     });
 
     it('should invalidate mongodb outermost group', () => {
@@ -1218,7 +1268,7 @@ describe('validation', () => {
             validator: () => ({ root: false }),
           }
         )
-      ).toBe('{"$and":[{"$expr":true}]}');
+      ).toBe('{}');
     });
 
     it('should invalidate mongodb inner group', () => {
@@ -1234,7 +1284,7 @@ describe('validation', () => {
             validator: () => ({ inner: false }),
           }
         )
-      ).toBe('{"$and":[{"$expr":true}]}');
+      ).toBe('{}');
     });
   });
 
