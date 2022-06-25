@@ -7,7 +7,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import Switch from '@mui/material/Switch';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import { useEffect } from 'react';
-import type { ValueEditorProps } from 'react-querybuilder';
+import type { ValueEditorProps } from '@frontlinetech/react-querybuilder';
 import { MaterialValueSelector } from './MaterialValueSelector';
 
 export const MaterialValueEditor = ({

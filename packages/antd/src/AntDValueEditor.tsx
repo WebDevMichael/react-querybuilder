@@ -1,7 +1,7 @@
 import { Checkbox, DatePicker, Input, Radio, Switch, TimePicker } from 'antd';
 import moment from 'moment';
 import { useEffect } from 'react';
-import type { ValueEditorProps } from 'react-querybuilder';
+import type { ValueEditorProps } from '@frontlinetech/react-querybuilder';
 import { AntDValueSelector } from './AntDValueSelector';
 
 export const AntDValueEditor = ({

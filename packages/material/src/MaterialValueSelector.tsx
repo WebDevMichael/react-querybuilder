@@ -1,7 +1,7 @@
 import FormControl from '@mui/material/FormControl';
 import Select, { type SelectChangeEvent } from '@mui/material/Select';
 import { useMemo, type ComponentPropsWithoutRef } from 'react';
-import type { VersatileSelectorProps } from 'react-querybuilder';
+import type { VersatileSelectorProps } from '@frontlinetech/react-querybuilder';
 import { toOptions } from './utils';
 
 type MaterialValueSelectorProps = VersatileSelectorProps & ComponentPropsWithoutRef<typeof Select>;

@@ -1,4 +1,4 @@
-import type { Controls } from 'react-querybuilder';
+import type { Controls } from '@frontlinetech/react-querybuilder';
 import { ChakraActionElement } from './ChakraActionElement';
 import { ChakraDragHandle } from './ChakraDragHandle';
 import { ChakraNotToggle } from './ChakraNotToggle';

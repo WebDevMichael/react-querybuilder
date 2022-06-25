@@ -17,7 +17,6 @@ export const defaultValueProcessorMongoDBByRule: ValueProcessorByRule = (
   if (
     operator === '<' ||
     operator === '<=' ||
-    operator === '=' ||
     operator === '!=' ||
     operator === '>' ||
     operator === '>='
@@ -28,6 +27,13 @@ export const defaultValueProcessorMongoDBByRule: ValueProcessorByRule = (
       : `{"${field}":{"${mongoOperator}":${
           useBareValue ? trimIfString(value) : `"${escapeDoubleQuotes(value)}"`
         }}}`;
+  } else if (operator === '=') {
+    const mongoOperator = mongoOperators[operator];
+    return valueIsField
+        ? `{"$expr":["$${field}","$${value}"]}`
+        : `{"${field}":${
+            useBareValue ? trimIfString(value) : `"${escapeDoubleQuotes(value)}"`
+        }}`;
   } else if (operator === 'contains') {
     return valueIsField
       ? `{"$where":"this.${field}.includes(this.${value})"}`

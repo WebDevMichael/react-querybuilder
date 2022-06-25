@@ -631,9 +631,9 @@ const params_named = {
   email_3: '%fr',
 };
 const mongoQueryString =
-  '{"$and":[{"firstName":null},{"lastName":{"$ne":null}},{"firstName":{"$in":["Test","This"]}},{"lastName":{"$nin":["Test","This"]}},{"$and":[{"firstName":{"$gte":"Test"}},{"firstName":{"$lte":"This"}}]},{"$and":[{"firstName":{"$gte":"Test"}},{"firstName":{"$lte":"This"}}]},{"$or":[{"lastName":{"$lt":"Test"}},{"lastName":{"$gt":"This"}}]},{"$and":[{"age":{"$gte":12}},{"age":{"$lte":14}}]},{"age":{"$eq":"26"}},{"isMusician":{"$eq":true}},{"email":{"$regex":"@"}},{"email":{"$regex":"^ab"}},{"email":{"$regex":"com$"}},{"hello":{"$not":{"$regex":"com"}}},{"job":{"$not":{"$regex":"^Man"}}},{"job":{"$not":{"$regex":"ger$"}}},{"$or":[{"job":{"$eq":"Sales Executive"}}]}]}';
+  '{"$and":[{"firstName":null},{"lastName":{"$ne":null}},{"firstName":{"$in":["Test","This"]}},{"lastName":{"$nin":["Test","This"]}},{"$and":[{"firstName":{"$gte":"Test"}},{"firstName":{"$lte":"This"}}]},{"$and":[{"firstName":{"$gte":"Test"}},{"firstName":{"$lte":"This"}}]},{"$or":[{"lastName":{"$lt":"Test"}},{"lastName":{"$gt":"This"}}]},{"$and":[{"age":{"$gte":12}},{"age":{"$lte":14}}]},{"age":"26"},{"isMusician":true},{"email":{"$regex":"@"}},{"email":{"$regex":"^ab"}},{"email":{"$regex":"com$"}},{"hello":{"$not":{"$regex":"com"}}},{"job":{"$not":{"$regex":"^Man"}}},{"job":{"$not":{"$regex":"ger$"}}},{"$or":[{"job":"Sales Executive"}]}]}';
 const mongoQueryStringForValueSourceField =
-  '{"$and":[{"firstName":null},{"lastName":{"$ne":null}},{"$where":"[this.middleName,this.lastName].includes(this.firstName)"},{"$where":"![this.middleName,this.lastName].includes(this.lastName)"},{"$and":[{"$expr":{"$gte":["$firstName","$middleName"]}},{"$expr":{"$lte":["$firstName","$lastName"]}}]},{"$and":[{"$expr":{"$gte":["$firstName","$middleName"]}},{"$expr":{"$lte":["$firstName","$lastName"]}}]},{"$or":[{"$expr":{"$lt":["$lastName","$middleName"]}},{"$expr":{"$gt":["$lastName","$lastName"]}}]},{"$expr":{"$eq":["$age","$iq"]}},{"$expr":{"$eq":["$isMusician","$isCreative"]}},{"$where":"this.email.includes(this.atSign)"},{"$where":"this.email.startsWith(this.name)"},{"$where":"this.email.endsWith(this.dotCom)"},{"$where":"!this.hello.includes(this.dotCom)"},{"$where":"!this.job.startsWith(this.noJob)"},{"$where":"!this.job.endsWith(this.noJob)"},{"$or":[{"$expr":{"$eq":["$job","$executiveJobName"]}}]}]}';
+  '{"$and":[{"firstName":null},{"lastName":{"$ne":null}},{"$where":"[this.middleName,this.lastName].includes(this.firstName)"},{"$where":"![this.middleName,this.lastName].includes(this.lastName)"},{"$and":[{"$expr":{"$gte":["$firstName","$middleName"]}},{"$expr":{"$lte":["$firstName","$lastName"]}}]},{"$and":[{"$expr":{"$gte":["$firstName","$middleName"]}},{"$expr":{"$lte":["$firstName","$lastName"]}}]},{"$or":[{"$expr":{"$lt":["$lastName","$middleName"]}},{"$expr":{"$gt":["$lastName","$lastName"]}}]},{"$expr":["$age","$iq"]},{"$expr":["$isMusician","$isCreative"]},{"$where":"this.email.includes(this.atSign)"},{"$where":"this.email.startsWith(this.name)"},{"$where":"this.email.endsWith(this.dotCom)"},{"$where":"!this.hello.includes(this.dotCom)"},{"$where":"!this.job.startsWith(this.noJob)"},{"$where":"!this.job.endsWith(this.noJob)"},{"$or":[{"$expr":["$job","$executiveJobName"]}]}]}';
 const celString =
   'firstName == null && lastName != null && firstName in ["Test", "This"] && !(lastName in ["Test", "This"]) && (firstName >= "Test" && firstName <= "This") && (firstName >= "Test" && firstName <= "This") && (lastName < "Test" || lastName > "This") && (age >= 12 && age <= 14) && age == "26" && isMusician == true && !(gender == "M" || job != "Programmer" || email.contains("@")) && (!lastName.contains("ab") || job.startsWith("Prog") || email.endsWith("com") || !job.startsWith("Man") || !email.endsWith("fr"))';
 const celStringForValueSourceField =
@@ -957,7 +957,7 @@ describe('escapes quotes when appropriate', () => {
   };
 
   it.each([
-    { fmt: 'mongodb', result: `{"$and":[{"f1":{"$eq":"Te\\"st"}}]}` },
+    { fmt: 'mongodb', result: `{"$and":[{"f1":"Te\\"st"}]}` },
     { fmt: 'cel', result: `f1 == "Te\\"st"` },
   ])('escapes double quotes (if appropriate) for $fmt export', ({ fmt, result }) => {
     expect(formatQuery(testQueryDQ, fmt as 'cel' | 'mongodb')).toEqual(result);
@@ -994,7 +994,7 @@ describe('independent combinators', () => {
 
   it('handles independent combinators for mongodb', () => {
     expect(formatQuery(queryIC, 'mongodb')).toBe(
-      '{"$or":[{"$and":[{"firstName":{"$eq":"Test"}},{"middleName":{"$eq":"Test"}}]},{"lastName":{"$eq":"Test"}}]}'
+      '{"$or":[{"$and":[{"firstName":"Test"},{"middleName":"Test"}]},{"lastName":"Test"}]}'
     );
   });
 
@@ -1189,7 +1189,7 @@ describe('validation', () => {
           },
           { format: 'mongodb', fields: [{ name: 'field', validator: () => false }] }
         )
-      ).toBe('{"$and":[{"otherfield":{"$eq":""}}]}');
+      ).toBe('{"$and":[{"otherfield":""}]}');
     });
 
     it('should invalidate mongodb even if fields are valid', () => {
@@ -1734,7 +1734,7 @@ describe('parseNumbers', () => {
   });
   it('parses numbers for mongodb', () => {
     expect(formatQuery(queryForNumberParsing, { format: 'mongodb', parseNumbers: true })).toBe(
-      '{"$and":[{"f":{"$eq":"NaN"}},{"f":{"$eq":0}},{"f":{"$eq":0}},{"f":{"$eq":0}},{"$or":[{"f":{"$eq":1.5}},{"f":{"$eq":1.5}}]},{"f":{"$in":[0,1,2]}},{"f":{"$in":[0,1,2]}},{"f":{"$in":[0,"abc",2]}},{"$and":[{"f":{"$gte":0}},{"f":{"$lte":1}}]},{"$and":[{"f":{"$gte":0}},{"f":{"$lte":1}}]},{"$and":[{"f":{"$gte":0}},{"f":{"$lte":"abc"}}]},{"$and":[{"f":{"$gte":"[object Object]"}},{"f":{"$lte":"[object Object]"}}]}]}'
+      '{"$and":[{"f":"NaN"},{"f":0},{"f":0},{"f":0},{"$or":[{"f":1.5},{"f":1.5}]},{"f":{"$in":[0,1,2]}},{"f":{"$in":[0,1,2]}},{"f":{"$in":[0,"abc",2]}},{"$and":[{"f":{"$gte":0}},{"f":{"$lte":1}}]},{"$and":[{"f":{"$gte":0}},{"f":{"$lte":1}}]},{"$and":[{"f":{"$gte":0}},{"f":{"$lte":"abc"}}]},{"$and":[{"f":{"$gte":"[object Object]"}},{"f":{"$lte":"[object Object]"}}]}]}'
     );
   });
   it('parses numbers for cel', () => {

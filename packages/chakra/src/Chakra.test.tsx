@@ -6,8 +6,8 @@ import {
   testNotToggle,
   testValueEditor,
   testValueSelector,
-} from 'react-querybuilder/genericTests';
-import type { DragHandleProps } from 'react-querybuilder/src';
+} from '@frontlinetech/react-querybuilder/genericTests';
+import type { DragHandleProps } from '@frontlinetech/react-querybuilder/src';
 import {
   ChakraActionElement,
   ChakraDragHandle,

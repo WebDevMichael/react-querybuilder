@@ -1,4 +1,4 @@
-import type { ActionProps } from 'react-querybuilder';
+import type { ActionProps } from '@frontlinetech/react-querybuilder';
 
 export const BulmaActionElement = ({
   className,

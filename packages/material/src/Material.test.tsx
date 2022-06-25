@@ -9,14 +9,14 @@ import {
   testNotToggle,
   testValueEditor,
   userEventSetup,
-} from 'react-querybuilder/genericTests';
+} from '@frontlinetech/react-querybuilder/genericTests';
 import type {
   DragHandleProps,
   NameLabelPair,
   OptionGroup,
   ValueEditorProps,
   ValueSelectorProps,
-} from 'react-querybuilder/src';
+} from '@frontlinetech/react-querybuilder/src';
 import 'regenerator-runtime/runtime';
 import {
   MaterialActionElement,

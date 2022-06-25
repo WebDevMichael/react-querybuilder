@@ -1,4 +1,4 @@
-import type { Classnames, Controls } from 'react-querybuilder';
+import type { Classnames, Controls } from '@frontlinetech/react-querybuilder';
 import { BootstrapDragHandle } from './BootstrapDragHandle';
 import { BootstrapNotToggle } from './BootstrapNotToggle';
 import { BootstrapValueEditor } from './BootstrapValueEditor';

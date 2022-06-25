@@ -1,4 +1,4 @@
-import type { Controls } from 'react-querybuilder';
+import type { Controls } from '@frontlinetech/react-querybuilder';
 import { AntDActionElement } from './AntDActionElement';
 import { AntDDragHandle } from './AntDDragHandle';
 import { AntDNotToggle } from './AntDNotToggle';

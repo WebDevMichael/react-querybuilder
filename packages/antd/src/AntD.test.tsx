@@ -10,13 +10,13 @@ import {
   testDragHandle,
   testValueEditor,
   userEventSetup,
-} from 'react-querybuilder/genericTests';
+} from '@frontlinetech/react-querybuilder/genericTests';
 import type {
   NameLabelPair,
   NotToggleProps,
   ValueEditorProps,
   ValueSelectorProps,
-} from 'react-querybuilder/src';
+} from '@frontlinetech/react-querybuilder/src';
 import {
   AntDActionElement,
   AntDDragHandle,

@@ -1,4 +1,4 @@
-import type { Controls } from 'react-querybuilder';
+import type { Controls } from '@frontlinetech/react-querybuilder';
 import { BulmaActionElement } from './BulmaActionElement';
 import { BulmaNotToggle } from './BulmaNotToggle';
 import { BulmaValueEditor } from './BulmaValueEditor';

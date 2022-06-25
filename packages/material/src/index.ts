@@ -1,4 +1,4 @@
-import type { Controls } from 'react-querybuilder';
+import type { Controls } from '@frontlinetech/react-querybuilder';
 import { MaterialActionElement } from './MaterialActionElement';
 import { MaterialDragHandle } from './MaterialDragHandle';
 import { MaterialNotToggle } from './MaterialNotToggle';

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { ValueSelector, type ValueEditorProps } from 'react-querybuilder';
+import { ValueSelector, type ValueEditorProps } from '@frontlinetech/react-querybuilder';
 
 export const BootstrapValueEditor = ({
   fieldData,
