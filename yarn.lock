@@ -1745,7 +1745,7 @@
 
 "@frontlinetech/react-querybuilder@file:/Users/michael/Dev/GitHub/react-querybuilder/packages/react-querybuilder":
   "resolved" "file:packages/react-querybuilder"
-  "version" "5.4.0"
+  "version" "5.4.1"
   dependencies:
     "immer" "^9.0.6"
     "react-dnd" "^16.0.1"

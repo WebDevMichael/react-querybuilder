@@ -356,7 +356,7 @@ function formatQuery(ruleGroup: RuleGroupTypeAny, options: FormatQueryOptions | 
                 parseNumbers,
                 escapeQuotes: (rule.valueSource ?? 'value')==='value',
               });
-              if (rg.combinator==='or') {
+              if (!outermost) {
                 return `{${condition}}`
               }
               return condition;
