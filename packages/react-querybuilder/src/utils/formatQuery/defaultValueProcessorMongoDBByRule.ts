@@ -54,9 +54,9 @@ export const defaultValueProcessorMongoDBByRule: ValueProcessorByRule = (
         ? `{"$where":"!this.${field}.endsWith(this.${value})"}`
         :`"${field}":{"$not":{"$regex":"${escapeDoubleQuotes(value)}$"}}`;
   } else if (operator==='null') {
-    return `"${field}":null}`;
+    return `"${field}":null`;
   } else if (operator==='notNull') {
-    return `"${field}":{"$ne":null}}`;
+    return `"${field}":{"$ne":null}`;
   } else if (operator==='in' || operator==='notIn') {
     const valArray = toArray(value);
     if (valArray.length > 0) {

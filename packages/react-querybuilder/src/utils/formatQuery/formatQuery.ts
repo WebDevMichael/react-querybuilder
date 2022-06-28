@@ -373,7 +373,6 @@ function formatQuery(ruleGroup: RuleGroupTypeAny, options: FormatQueryOptions | 
         } else {
           return fallbackExpression
         }
-        ;
       };
 
       const rgStandard = 'combinator' in ruleGroup ? ruleGroup:convertFromIC(ruleGroup);
