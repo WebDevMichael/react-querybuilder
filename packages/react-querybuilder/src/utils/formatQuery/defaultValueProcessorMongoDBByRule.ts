@@ -24,7 +24,7 @@ export const defaultValueProcessorMongoDBByRule: ValueProcessorByRule = (
     const mongoOperator = mongoOperators[operator];
     return `"${field}":{"${mongoOperator}":${
         useBareValue ? trimIfString(value):`"${escapeDoubleQuotes(value)}"`
-    }}}`;
+    }}`;
   } else if (operator==='=') {
     return `"${field}":${
         useBareValue ? trimIfString(value):`"${escapeDoubleQuotes(value)}"`
