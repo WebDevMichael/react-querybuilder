@@ -47,7 +47,7 @@ import {
   formatQuery,
   parseCEL,
   parseJsonLogic,
-  parseSQL,
+  parseMongoDb,
   QueryBuilder,
   type ExportFormat,
   type FormatQueryOptions,
@@ -189,7 +189,7 @@ const App = () => {
 
   const loadFromSQL = useCallback(() => {
     try {
-      const q = parseSQL(sql);
+      const q = parseMongoDb(sql);
       const qIC = parseSQL(sql, { independentCombinators: true });
       setQuery(q);
       setQueryIC(qIC);

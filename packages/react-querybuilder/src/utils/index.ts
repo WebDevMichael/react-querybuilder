@@ -7,6 +7,7 @@ export * from './optGroupUtils';
 export * from './parseCEL';
 export * from './parseJsonLogic';
 export * from './parseSQL';
+export * from './parseMongoDb';
 export * from './pathUtils';
 export * from './prepareQueryObjects';
 export * from './queryTools';
