@@ -1258,72 +1258,63 @@ describe('validation', () => {
               {format: 'mongodb', validator: () => false, fallbackExpression: ''}
           )
       ).toBe('{}');
-      expect(
-          formatQuery(
+      const rulesToFormatMongoDb = {
+        "rules": [
+          {
+            "field": "_id",
+            "operator": "=",
+            "valueSource": "value",
+            "value": "asd"
+          },
+          {
+            "field": "ACC360Objecttype",
+            "operator": "=",
+            "value": "qwert"
+          },
+          {
+            "rules": [
               {
-                "rules": [
-                  {
-                    "field": "_id",
-                    "operator": "=",
-                    "valueSource": "value",
-                    "value": "asd"
-                  },
-                  {
-                    "id": "r-0.3559341682421391",
-                    "field": "ACC360Objecttype",
-                    "operator": "=",
-                    "valueSource": "value",
-                    "value": "qwert"
-                  },
-                  {
-                    "id": "g-0.5597784251124902",
-                    "rules": [
-                      {
-                        "id": "r-0.9890586603306992",
-                        "field": "ACC360Objecttype",
-                        "operator": "=",
-                        "valueSource": "value",
-                        "value": "orval"
-                      },
-                      {
-                        "id": "r-0.9890586603306992",
-                        "field": "ACC360Objecttype",
-                        "operator": "=",
-                        "valueSource": "value",
-                        "value": "orval2"
-                      }
-                    ],
-                    "combinator": "or",
-                    "not": false
-                  },
-                  {
-                    "id": "g-0.9264644156937398",
-                    "rules": [
-                      {
-                        "id": "r-0.0632435903895725",
-                        "field": "ACC360Objecttype",
-                        "operator": "=",
-                        "valueSource": "value",
-                        "value": "and111"
-                      },
-                      {
-                        "id": "r-0.0632435903895725",
-                        "field": "ACC360Objecttype",
-                        "operator": "=",
-                        "valueSource": "value",
-                        "value": "and222"
-                      }
-                    ],
-                    "combinator": "and",
-                    "not": false
-                  },
-                ],
-                "combinator": "and",
-                "not": false
+                "field": "ACC360Objecttype",
+                "operator": "=",
+                "value": "orval"
               },
-              {format: 'mongodb'}
-          )
-      ).toBe(`{"_id":"asd","ACC360Objecttype":"qwert","$or":[{"ACC360Objecttype":"orval"},{"ACC360Objecttype":"orval2"}],"$and":[{"ACC360Objecttype":"and111"},{"ACC360Objecttype":"and222"}]}`);
+              {
+                "field": "ACC360Objecttype",
+                "operator": "=",
+                "value": "orval2"
+              }
+            ],
+            "combinator": "or",
+            "not": false
+          },
+          {
+            "id": "g-0.9264644156937398",
+            "rules": [
+              {
+                "id": "r-0.0632435903895725",
+                "field": "ACC360Objecttype",
+                "operator": "=",
+                "valueSource": "value",
+                "value": "and111"
+              },
+              {
+                "id": "r-0.0632435903895725",
+                "field": "ACC360Objecttype",
+                "operator": "=",
+                "valueSource": "value",
+                "value": "and222"
+              }
+            ],
+            "combinator": "and",
+            "not": false
+          },
+        ],
+        "combinator": "and",
+        "not": false
+      }
+      const formattedQueryMongoDb = formatQuery(rulesToFormatMongoDb , {format: 'mongodb'})
+      expect(formattedQueryMongoDb).toBe(`{"_id":"asd","ACC360Objecttype":"qwert","$or":[{"ACC360Objecttype":"orval"},{"ACC360Objecttype":"orval2"}],"$and":[{"ACC360Objecttype":"and111"},{"ACC360Objecttype":"and222"}]}`);
+      expect(EJSON.parse(formattedQueryMongoDb)).toEqual(EJSON.parse(`{"_id":"asd","ACC360Objecttype":"qwert","$or":[{"ACC360Objecttype":"orval"},{"ACC360Objecttype":"orval2"}],"$and":[{"ACC360Objecttype":"and111"},{"ACC360Objecttype":"and222"}]}`));
     });
 
     it('should invalidate a mongodb rule', () => {

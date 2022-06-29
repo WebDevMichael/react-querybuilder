@@ -339,9 +339,11 @@ function formatQuery(ruleGroup: RuleGroupTypeAny, options: FormatQueryOptions | 
         const combinator = `"$${rg.combinator}"`;
         let sameFieldInMultipleRules = false
           rg.rules.reduce((accFields, rule)=> {
-          if (accFields.indexOf(rule.field) > -1) {
-            sameFieldInMultipleRules = true
-          }
+            if (rule.field) {
+              if (accFields.indexOf(rule.field) > -1) {
+                sameFieldInMultipleRules = true;
+              }
+            }
           accFields.push(rule.field);
           return accFields
         }, [])
@@ -373,14 +375,10 @@ function formatQuery(ruleGroup: RuleGroupTypeAny, options: FormatQueryOptions | 
           .join(',');
 
         if (expression) {
-          if ((!outermost && sameFieldInMultipleRules) || parentSurrounded) {
+          if (parentSurrounded || parentCombinator == 'or') {
             return `{${combinator}:[${expression}]}`;
-          } else if (outermost && sameFieldInMultipleRules) {
-            return `${combinator}:[${expression}]`;
-          } else if (outermost && rg.combinator === 'and') {
+          } else if (outermost && rg.combinator === 'and' && !sameFieldInMultipleRules) {
             return `${expression}`;
-          } else if(sameFieldInMultipleRules && (!outermost || parentCombinator === 'or')) {
-            return `{${combinator}:[${expression}]}`;
           } else {
             return `${combinator}:[${expression}]`;
           }
