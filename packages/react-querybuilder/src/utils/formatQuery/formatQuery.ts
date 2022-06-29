@@ -331,14 +331,14 @@ function formatQuery(ruleGroup: RuleGroupTypeAny, options: FormatQueryOptions | 
         return processRuleGroup(ruleGroup, true);
       }
     } else if (format==='mongodb') {
-      const processRuleGroup = ({ rg, outermost = false, parentCombinator, parentSurrounded = false }: {rg: RuleGroupType, outermost?: boolean, parentCombinator: string, parentSurrounded?: boolean}) => {
+      const processRuleGroup = ({ rg, outermost = false, parentCombinator, parentSurrounded = false }: {rg: RuleGroupType, outermost?: boolean, parentCombinator?: string, parentSurrounded?: boolean}) => {
         if (!isRuleOrGroupValid(rg, validationMap[rg.id ?? /* istanbul ignore next */ ''])) {
           return outermost ? fallbackExpression : '';
         }
 
         const combinator = `"$${rg.combinator}"`;
-        let sameFieldInMultipleRules = false
-          rg.rules.reduce((accFields, rule)=> {
+        let sameFieldInMultipleRules = false;
+        (rg.rules as Array<{field: string}>).reduce((accFields: string[], rule: {field: string})=> {
             if (rule.field) {
               if (accFields.indexOf(rule.field) > -1) {
                 sameFieldInMultipleRules = true;
@@ -388,8 +388,7 @@ function formatQuery(ruleGroup: RuleGroupTypeAny, options: FormatQueryOptions | 
       };
 
       const rgStandard = 'combinator' in ruleGroup ? ruleGroup:convertFromIC(ruleGroup);
-      const mongoOutput = `{${processRuleGroup({ rg: rgStandard, outermost: true })}}`
-      return mongoOutput;
+      return `{${processRuleGroup({ rg: rgStandard, outermost: true })}}`
     } else if (format==='cel') {
       const processRuleGroup = (rg: RuleGroupTypeAny, outermost?: boolean) => {
         if (!isRuleOrGroupValid(rg, validationMap[rg.id ?? /* istanbul ignore next */ ''])) {
