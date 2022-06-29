@@ -376,7 +376,8 @@ function formatQuery(ruleGroup: RuleGroupTypeAny, options: FormatQueryOptions | 
       };
 
       const rgStandard = 'combinator' in ruleGroup ? ruleGroup:convertFromIC(ruleGroup);
-      return `{${processRuleGroup(rgStandard, true)}}`;
+      const mongoOutput = `{${processRuleGroup(rgStandard, true)}}`
+      return mongoOutput;
     } else if (format==='cel') {
       const processRuleGroup = (rg: RuleGroupTypeAny, outermost?: boolean) => {
         if (!isRuleOrGroupValid(rg, validationMap[rg.id ?? /* istanbul ignore next */ ''])) {

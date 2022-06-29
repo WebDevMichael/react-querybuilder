@@ -15,6 +15,7 @@ import { convertToIC } from '../convertQuery';
 import { add } from '../queryTools';
 import { formatQuery } from './formatQuery';
 import { jsonLogicAdditionalOperators } from './utils';
+import {EJSON} from 'bson'
 
 const query: RuleGroupType = {
   id: 'g-root',
@@ -631,9 +632,9 @@ const params_named = {
   email_3: '%fr',
 };
 const mongoQueryString =
-    `{"firstName":null,"lastName":{$ne:null},$and:[{"firstName":{$gte:"Test"}},{"firstName":{$lte:"This"}}],$or:[{"lastName":{$lt:"Test"}},{"lastName":{$gt:"This"}}],"age":"26","isMusician":true,"email":{"$regex":"@"},"hello":{"$not":{"$regex":"com"}},"job":{"$not":{"$regex":"^Man"}}}`;
+    `{"firstName":null,"lastName":{"$ne":null},"firstName":{"$in":["Test","This"]},"lastName":{"$nin":["Test","This"]},"firstName":{"$in":[]},"firstName":{"$gte":"Test","$lte":"This"},"firstName":{"$gte":"Test","$lte":"This"},"lastName":{"$lte":"Test","$gte":"This"},"firstName":{"$gte":"","$lte":""},"firstName":{"$gte":"","$lte":""},"age":{"$gte":12,"$lte":14},"age":"26","isMusician":true,"email":{"$regex":"@"},"email":{"$regex":"^ab"},"email":{"$regex":"com$"},"hello":{"$not":{"$regex":"com"}},"job":{"$not":{"$regex":"^Man"}},"job":{"$not":{"$regex":"ger$"}},"$or":[{"job":"Sales Executive"},{"job":{"$in":[]}},{"job":{"$gte":"just one value","$lte":""}}]}`;
 const mongoQueryStringForValueSourceField =
-    '{"$and":[{"firstName":null},{"lastName":{"$ne":null}},{"$where":"[this.middleName,this.lastName].includes(this.firstName)"},{"$where":"![this.middleName,this.lastName].includes(this.lastName)"},{"$and":[{"$expr":{"$gte":["$firstName","$middleName"]}},{"$expr":{"$lte":["$firstName","$lastName"]}}]},{"$and":[{"$expr":{"$gte":["$firstName","$middleName"]}},{"$expr":{"$lte":["$firstName","$lastName"]}}]},{"$or":[{"$expr":{"$lt":["$lastName","$middleName"]}},{"$expr":{"$gt":["$lastName","$lastName"]}}]},{"$expr":["$age","$iq"]},{"$expr":["$isMusician","$isCreative"]},{"$where":"this.email.includes(this.atSign)"},{"$where":"this.email.startsWith(this.name)"},{"$where":"this.email.endsWith(this.dotCom)"},{"$where":"!this.hello.includes(this.dotCom)"},{"$where":"!this.job.startsWith(this.noJob)"},{"$where":"!this.job.endsWith(this.noJob)"},{"$or":[{"$expr":["$job","$executiveJobName"]}]}]}';
+    '{"firstName":null,"lastName":{"$ne":null},"firstName":{"$in":["middleName","lastName"]},"lastName":{"$nin":["middleName","lastName"]},"firstName":{"$in":[]},"firstName":{"$gte":"middleName","$lte":"lastName"},"firstName":{"$gte":"middleName","$lte":"lastName"},"lastName":{"$lte":"middleName","$gte":"lastName"},"firstName":{"$gte":"","$lte":""},"firstName":{"$gte":"","$lte":""},"age":"iq","isMusician":"isCreative","$where":"this.email.includes(this.atSign)","$where":"this.email.startsWith(this.name)","$where":"this.email.endsWith(this.dotCom)","$where":"!this.hello.includes(this.dotCom)","$where":"!this.job.startsWith(this.noJob)","$where":"!this.job.endsWith(this.noJob)","$or":[{"job":"executiveJobName"}]}';
 const celString =
     'firstName == null && lastName != null && firstName in ["Test", "This"] && !(lastName in ["Test", "This"]) && (firstName >= "Test" && firstName <= "This") && (firstName >= "Test" && firstName <= "This") && (lastName < "Test" || lastName > "This") && (age >= 12 && age <= 14) && age == "26" && isMusician == true && !(gender == "M" || job != "Programmer" || email.contains("@")) && (!lastName.contains("ab") || job.startsWith("Prog") || email.endsWith("com") || !job.startsWith("Man") || !email.endsWith("fr"))';
 const celStringForValueSourceField =
@@ -752,9 +753,13 @@ it('formats parameterized named SQL correctly', () => {
 });
 
 it('formats to mongo query correctly', () => {
-  expect(formatQuery(mongoQuery, 'mongodb')).toBe(mongoQueryString);
-  expect(formatQuery(mongoQueryWithValueSourceField, 'mongodb')).toBe(
-      mongoQueryStringForValueSourceField
+  let mongoQueryString4 = EJSON.parse(mongoQueryString);
+  const formatMongoQuery4String = formatQuery(mongoQuery, 'mongodb')
+  const formatMongoQuery4Json = EJSON.parse(formatMongoQuery4String)
+  expect(formatMongoQuery4Json).toEqual(mongoQueryString4);
+  const formatMongoQuerySourceField = formatQuery(mongoQueryWithValueSourceField, 'mongodb')
+  expect(EJSON.parse(formatMongoQuerySourceField)).toEqual(
+      EJSON.parse(mongoQueryStringForValueSourceField)
   );
   expect(
       formatQuery(mongoQueryWithValueSourceField, {
@@ -762,6 +767,78 @@ it('formats to mongo query correctly', () => {
         valueProcessor: defaultMongoDBValueProcessor,
       })
   ).toBe(mongoQueryStringForValueSourceField);
+});
+it('formats to mongo query correctly - 1', () => {
+  const mongoQuery1: RuleGroupType = {
+    id: 'g-root',
+    combinator: 'and',
+    rules: [
+      {
+        field: 'firstName',
+        operator: '=',
+        value: 'Test',
+      },
+    ],
+    not: false,
+  };
+  const mongoQueryString1=EJSON.parse(`{"firstName":"Test"}`)
+  const format1 = EJSON.parse(formatQuery(mongoQuery1, 'mongodb'))
+  expect(format1).toEqual(mongoQueryString1);
+});
+it('formats to mongo query correctly - 2', () => {
+  const mongoQuery2: RuleGroupType = {
+    id: 'g-root',
+    combinator: 'and',
+    rules: [
+      {
+        field: 'firstName',
+        operator: '=',
+        value: 'Test',
+      },
+      {
+        field: 'lastName',
+        operator: '!=',
+        value: 'NotTest',
+      },
+    ],
+    not: false,
+  };
+  const mongoQueryString2=`{"firstName":"Test","lastName":{"$ne":"NotTest"}}`
+  expect(EJSON.parse(formatQuery(mongoQuery2, 'mongodb'))).toEqual(EJSON.parse(mongoQueryString2));
+});
+it('formats to mongo query correctly - 3', () => {
+  const mongoQuery3: RuleGroupType = {
+    id: 'g-root',
+    combinator: 'and',
+    rules: [
+      {
+        field: 'firstName',
+        operator: '=',
+        value: 'Test',
+      },
+      {
+        id: 'g-sub1',
+        combinator: 'or',
+        rules: [
+          {
+            field: 'lastName',
+            operator: '=',
+            value: 'Test2',
+          },
+          {
+            field: 'numField',
+            value: [1,2],
+            operator: 'in',
+          },
+        ],
+        not: false,
+      }
+
+    ],
+    not: false,
+  };
+  const mongoQueryString3=EJSON.parse(`{"firstName":"Test","$or":[{"lastName":"Test2"},{"numField":{"$in":["1","2"]}}]}`)
+  expect(EJSON.parse(formatQuery(mongoQuery3, 'mongodb'))).toEqual(mongoQueryString3);
 });
 
 it('formats CEL correctly', () => {
@@ -957,7 +1034,7 @@ describe('escapes quotes when appropriate', () => {
   };
 
   it.each([
-    {fmt: 'mongodb', result: `{"$and":[{"f1":"Te\\"st"}]}`},
+    {fmt: 'mongodb', result: `{"f1":"Te\\"st"}`},
     {fmt: 'cel', result: `f1 == "Te\\"st"`},
   ])('escapes double quotes (if appropriate) for $fmt export', ({fmt, result}) => {
     expect(formatQuery(testQueryDQ, fmt as 'cel' | 'mongodb')).toEqual(result);
