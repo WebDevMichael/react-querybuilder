@@ -1,19 +1,19 @@
-import { defaultPlaceholderFieldName, defaultPlaceholderOperatorName } from '../../defaults';
+import { defaultPlaceholderFieldName,defaultPlaceholderOperatorName } from '../../defaults';
 import { uniqByName } from '../../internal/uniq';
 import type {
-  DefaultCombinatorName,
-  ExportFormat,
-  FormatQueryOptions,
-  ParameterizedNamedSQL,
-  ParameterizedSQL,
-  QueryValidator,
-  RQBJsonLogic,
-  RuleGroupType,
-  RuleGroupTypeAny,
-  RuleType,
-  RuleValidator,
-  ValidationMap,
-  ValidationResult,
+DefaultCombinatorName,
+ExportFormat,
+FormatQueryOptions,
+ParameterizedNamedSQL,
+ParameterizedSQL,
+QueryValidator,
+RQBJsonLogic,
+RuleGroupType,
+RuleGroupTypeAny,
+RuleType,
+RuleValidator,
+ValidationMap,
+ValidationResult
 } from '../../types/index.noReact';
 import { convertFromIC } from '../convertQuery';
 import { isRuleOrGroupValid } from '../isRuleOrGroupValid';
@@ -23,12 +23,12 @@ import { defaultValueProcessorCELByRule } from './defaultValueProcessorCELByRule
 import { defaultValueProcessorMongoDBByRule } from './defaultValueProcessorMongoDBByRule';
 import { defaultValueProcessorSpELByRule } from './defaultValueProcessorSpELByRule';
 import {
-  celCombinatorMap,
-  isValueProcessorLegacy,
-  mapSQLOperator,
-  numerifyValues,
-  shouldRenderAsNumber,
-  toArray,
+celCombinatorMap,
+isValueProcessorLegacy,
+mapSQLOperator,
+numerifyValues,
+shouldRenderAsNumber,
+toArray
 } from './utils';
 
 /**
@@ -331,17 +331,25 @@ function formatQuery(ruleGroup: RuleGroupTypeAny, options: FormatQueryOptions | 
         return processRuleGroup(ruleGroup, true);
       }
     } else if (format==='mongodb') {
-      const processRuleGroup = ({ rg, outermost = false, parentCombinator }: {rg: RuleGroupType, outermost?: boolean, parentCombinator: string}) => {
+      const processRuleGroup = ({ rg, outermost = false, parentCombinator, parentSurrounded = false }: {rg: RuleGroupType, outermost?: boolean, parentCombinator: string, parentSurrounded?: boolean}) => {
         if (!isRuleOrGroupValid(rg, validationMap[rg.id ?? /* istanbul ignore next */ ''])) {
           return outermost ? fallbackExpression : '';
         }
 
         const combinator = `"$${rg.combinator}"`;
+        let sameFieldInMultipleRules = false
+          rg.rules.reduce((accFields, rule)=> {
+          if (accFields.indexOf(rule.field) > -1) {
+            sameFieldInMultipleRules = true
+          }
+          accFields.push(rule.field);
+          return accFields
+        }, [])
 
         const expression: string = rg.rules
           .map(rule => {
             if ('rules' in rule) {
-              const processedRuleGroup = processRuleGroup({ rg: rule, parentCombinator: rg.combinator });
+              const processedRuleGroup = processRuleGroup({ rg: rule, parentCombinator: rg.combinator, parentSurrounded: sameFieldInMultipleRules });
               return processedRuleGroup ? `${processedRuleGroup}` : '';
             }
             const [validationResult, fieldValidator] = validateRule(rule);
@@ -356,7 +364,7 @@ function formatQuery(ruleGroup: RuleGroupTypeAny, options: FormatQueryOptions | 
               parseNumbers,
               escapeQuotes: (rule.valueSource ?? 'value') === 'value',
             });
-            if (!outermost || rg.combinator ==='or') {
+            if (!outermost || rg.combinator ==='or' || sameFieldInMultipleRules) {
               return `{${condition}}`;
             }
             return condition;
@@ -365,9 +373,13 @@ function formatQuery(ruleGroup: RuleGroupTypeAny, options: FormatQueryOptions | 
           .join(',');
 
         if (expression) {
-          if (outermost && rg.combinator === 'and') {
+          if ((!outermost && sameFieldInMultipleRules) || parentSurrounded) {
+            return `{${combinator}:[${expression}]}`;
+          } else if (outermost && sameFieldInMultipleRules) {
+            return `${combinator}:[${expression}]`;
+          } else if (outermost && rg.combinator === 'and') {
             return `${expression}`;
-          } else if(parentCombinator === 'or') {
+          } else if(sameFieldInMultipleRules && (!outermost || parentCombinator === 'or')) {
             return `{${combinator}:[${expression}]}`;
           } else {
             return `${combinator}:[${expression}]`;

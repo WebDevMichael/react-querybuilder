@@ -70,8 +70,8 @@ export const defaultValueProcessorMongoDBByRule: ValueProcessorByRule = (
       const [first, second] = valArray;
       const firstNum = shouldRenderAsNumber(first, true) ? parseFloat(first):NaN;
       const secondNum = shouldRenderAsNumber(second, true) ? parseFloat(second):NaN;
-      const firstValue = !isNaN(firstNum) ? `${first}`:`"${escapeDoubleQuotes(first) ?? ''}"`;
-      const secondValue = !isNaN(secondNum) ? `${second}`:`"${escapeDoubleQuotes(second) ?? ''}"`;
+      const firstValue = !isNaN(firstNum) ? `${first}`:first instanceof Object ? JSON.stringify(first) : `"${escapeDoubleQuotes(first) ?? ''}"`;
+      const secondValue = !isNaN(secondNum) ? `${second}`: second instanceof Object ? JSON.stringify(second) : `"${escapeDoubleQuotes(second) ?? ''}"`;
       if (operator==='between') {
         return `"${field}":{"$gte":${firstValue},"$lte":${secondValue}}`;
       } else {
