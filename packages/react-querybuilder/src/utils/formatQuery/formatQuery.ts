@@ -331,52 +331,54 @@ function formatQuery(ruleGroup: RuleGroupTypeAny, options: FormatQueryOptions | 
         return processRuleGroup(ruleGroup, true);
       }
     } else if (format==='mongodb') {
-      const processRuleGroup = (rg: RuleGroupType, outermost?: boolean) => {
+      const processRuleGroup = ({ rg, outermost = false, parentCombinator }: {rg: RuleGroupType, outermost?: boolean, parentCombinator: string}) => {
         if (!isRuleOrGroupValid(rg, validationMap[rg.id ?? /* istanbul ignore next */ ''])) {
-          return outermost ? fallbackExpression:'';
+          return outermost ? fallbackExpression : '';
         }
 
         const combinator = `"$${rg.combinator}"`;
 
         const expression: string = rg.rules
-            .map(rule => {
-              if ('rules' in rule) {
-                const processedRuleGroup = processRuleGroup(rule);
-                return processedRuleGroup ? `${processedRuleGroup}`:'';
-              }
-              const [validationResult, fieldValidator] = validateRule(rule);
-              if (
-                  !isRuleOrGroupValid(rule, validationResult, fieldValidator) ||
-                  rule.field===placeholderFieldName ||
-                  rule.operator===placeholderOperatorName
-              ) {
-                return '';
-              }
-              const condition = valueProcessorInternal(rule, {
-                parseNumbers,
-                escapeQuotes: (rule.valueSource ?? 'value')==='value',
-              });
-              if (!outermost) {
-                return `{${condition}}`
-              }
-              return condition;
-            })
-            .filter(Boolean)
-            .join(',');
+          .map(rule => {
+            if ('rules' in rule) {
+              const processedRuleGroup = processRuleGroup({ rg: rule, parentCombinator: rg.combinator });
+              return processedRuleGroup ? `${processedRuleGroup}` : '';
+            }
+            const [validationResult, fieldValidator] = validateRule(rule);
+            if (
+              !isRuleOrGroupValid(rule, validationResult, fieldValidator) ||
+              rule.field === placeholderFieldName ||
+              rule.operator === placeholderOperatorName
+            ) {
+              return '';
+            }
+            const condition = valueProcessorInternal(rule, {
+              parseNumbers,
+              escapeQuotes: (rule.valueSource ?? 'value') === 'value',
+            });
+            if (!outermost || rg.combinator ==='or') {
+              return `{${condition}}`;
+            }
+            return condition;
+          })
+          .filter(Boolean)
+          .join(',');
 
         if (expression) {
-          if (outermost && rg.combinator==='and') {
-            return `${expression}`
+          if (outermost && rg.combinator === 'and') {
+            return `${expression}`;
+          } else if(parentCombinator === 'or') {
+            return `{${combinator}:[${expression}]}`;
           } else {
-            return `${combinator}:[${expression}]`
+            return `${combinator}:[${expression}]`;
           }
         } else {
-          return fallbackExpression
+          return fallbackExpression;
         }
       };
 
       const rgStandard = 'combinator' in ruleGroup ? ruleGroup:convertFromIC(ruleGroup);
-      const mongoOutput = `{${processRuleGroup(rgStandard, true)}}`
+      const mongoOutput = `{${processRuleGroup({ rg: rgStandard, outermost: true })}}`
       return mongoOutput;
     } else if (format==='cel') {
       const processRuleGroup = (rg: RuleGroupTypeAny, outermost?: boolean) => {

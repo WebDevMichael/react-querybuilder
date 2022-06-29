@@ -1070,8 +1070,9 @@ describe('independent combinators', () => {
   });
 
   it('handles independent combinators for mongodb', () => {
-    expect(formatQuery(queryIC, 'mongodb')).toBe(
-        '{"$or":[{"$and":[{"firstName":"Test"},{"middleName":"Test"}]},{"lastName":"Test"}]}'
+    const formatQueryResult = formatQuery(queryIC, 'mongodb')
+    expect(EJSON.parse(formatQueryResult)).toEqual(
+        EJSON.parse('{"$or":[{"$and":[{"firstName":"Test"},{"middleName":"Test"}]},{"lastName":"Test"}]}')
     );
   });
 
@@ -1326,7 +1327,7 @@ describe('validation', () => {
 
     it('should invalidate a mongodb rule', () => {
       expect(
-          formatQuery(
+        EJSON.parse(formatQuery(
               {
                 id: 'root',
                 combinator: 'and',
@@ -1336,8 +1337,8 @@ describe('validation', () => {
                 ],
               },
               {format: 'mongodb', fields: [{name: 'field', validator: () => false}]}
-          )
-      ).toBe('{"$and":[{"otherfield":""}]}');
+          ))
+      ).toEqual(EJSON.parse('{"otherfield":""}'));
     });
 
     it('should invalidate mongodb even if fields are valid', () => {
@@ -1881,8 +1882,9 @@ describe('parseNumbers', () => {
     });
   });
   it('parses numbers for mongodb', () => {
-    expect(formatQuery(queryForNumberParsing, {format: 'mongodb', parseNumbers: true})).toBe(
-        '{"$and":[{"f":"NaN"},{"f":0},{"f":0},{"f":0},{"$or":[{"f":1.5},{"f":1.5}]},{"f":{"$in":[0,1,2]}},{"f":{"$in":[0,1,2]}},{"f":{"$in":[0,"abc",2]}},{"$and":[{"f":{"$gte":0}},{"f":{"$lte":1}}]},{"$and":[{"f":{"$gte":0}},{"f":{"$lte":1}}]},{"$and":[{"f":{"$gte":0}},{"f":{"$lte":"abc"}}]},{"$and":[{"f":{"$gte":"[object Object]"}},{"f":{"$lte":"[object Object]"}}]}]}'
+    const formattedQuery = formatQuery(queryForNumberParsing, {format: 'mongodb', parseNumbers: true})
+    expect(EJSON.parse(formattedQuery)).toEqual(
+      EJSON.parse('{"$and":[{"f":"NaN"},{"f":0},{"f":0},{"f":0},{"$or":[{"f":1.5},{"f":1.5}]},{"f":{"$in":[0,1,2]}},{"f":{"$in":[0,1,2]}},{"f":{"$in":[0,"abc",2]}},{"$and":[{"f":{"$gte":0}},{"f":{"$lte":1}}]},{"$and":[{"f":{"$gte":0}},{"f":{"$lte":1}}]},{"$and":[{"f":{"$gte":0}},{"f":{"$lte":"abc"}}]},{"$and":[{"f":{"$gte":"[object Object]"}},{"f":{"$lte":"[object Object]"}}]}]}')
     );
   });
   it('parses numbers for cel', () => {
