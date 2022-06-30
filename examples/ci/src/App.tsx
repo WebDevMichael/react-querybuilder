@@ -1,6 +1,6 @@
-import { useReducer, useState } from 'react';
 import type { DefaultRuleGroupType, QueryBuilderProps } from '@frontlinetech/react-querybuilder';
 import { defaultValidator, formatQuery, QueryBuilder } from '@frontlinetech/react-querybuilder';
+import { useReducer, useState } from 'react';
 import { fields } from './fields';
 import './index.scss';
 import { initialQuery, initialQueryIC } from './initialQuery';

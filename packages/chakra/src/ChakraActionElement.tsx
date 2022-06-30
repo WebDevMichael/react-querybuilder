@@ -1,6 +1,6 @@
 import { Button } from '@chakra-ui/react';
-import type { ComponentPropsWithoutRef } from 'react';
 import type { ActionWithRulesProps } from '@frontlinetech/react-querybuilder';
+import type { ComponentPropsWithoutRef } from 'react';
 
 type ChakraActionProps = ActionWithRulesProps & ComponentPropsWithoutRef<typeof Button>;
 

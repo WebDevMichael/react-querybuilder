@@ -1,3 +1,4 @@
+import type { ValueEditorProps } from '@frontlinetech/react-querybuilder';
 import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -7,7 +8,6 @@ import RadioGroup from '@mui/material/RadioGroup';
 import Switch from '@mui/material/Switch';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import { useEffect } from 'react';
-import type { ValueEditorProps } from '@frontlinetech/react-querybuilder';
 import { MaterialValueSelector } from './MaterialValueSelector';
 
 export const MaterialValueEditor = ({

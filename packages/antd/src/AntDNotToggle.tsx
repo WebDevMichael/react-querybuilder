@@ -1,6 +1,6 @@
+import type { NotToggleProps } from '@frontlinetech/react-querybuilder';
 import { Switch } from 'antd';
 import type { ComponentPropsWithoutRef } from 'react';
-import type { NotToggleProps } from '@frontlinetech/react-querybuilder';
 
 type AntDNotToggleProps = NotToggleProps & ComponentPropsWithoutRef<typeof Switch>;
 

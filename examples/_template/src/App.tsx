@@ -1,7 +1,7 @@
 // __IMPORTS__
-import { useState } from 'react';
 import type { Field, RuleGroupType } from '@frontlinetech/react-querybuilder';
 import { formatQuery, QueryBuilder } from '@frontlinetech/react-querybuilder';
+import { useState } from 'react';
 
 // __ADDITIONAL_DECLARATIONS__
 

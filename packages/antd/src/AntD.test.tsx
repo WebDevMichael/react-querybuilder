@@ -1,5 +1,3 @@
-import { render, screen, within } from '@testing-library/react';
-import moment from 'moment';
 import {
   defaultNotToggleProps,
   defaultValueEditorProps,
@@ -17,6 +15,8 @@ import type {
   ValueEditorProps,
   ValueSelectorProps,
 } from '@frontlinetech/react-querybuilder/src';
+import { render, screen, within } from '@testing-library/react';
+import moment from 'moment';
 import {
   AntDActionElement,
   AntDDragHandle,

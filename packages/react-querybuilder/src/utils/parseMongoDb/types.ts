@@ -122,7 +122,11 @@ export interface MongoDbLikePredicate extends MongoDbWhereObject {
   type: 'LikePredicate';
   hasNot: NotOpt;
   left: MongoDbSimpleExpression;
-  right: MongoDbSimpleExpression | MongoDbStartsWithExpr | MongoDbEndsWithExpr | MongoDbContainsExpr;
+  right:
+    | MongoDbSimpleExpression
+    | MongoDbStartsWithExpr
+    | MongoDbEndsWithExpr
+    | MongoDbContainsExpr;
   escape: MongoDbStringValue | null;
 }
 export interface MongoDbStartsWithExpr extends MongoDbWhereObject {

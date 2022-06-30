@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { formatQuery, QueryBuilder } from '@frontlinetech/react-querybuilder';
+import { useState } from 'react';
 
 const fields = [
   { name: 'firstName', label: 'First Name' },

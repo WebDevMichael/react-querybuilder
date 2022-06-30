@@ -1,5 +1,5 @@
-import { useMemo, type ChangeEvent } from 'react';
 import type { ValueSelectorProps } from '@frontlinetech/react-querybuilder';
+import { useMemo, type ChangeEvent } from 'react';
 import { toOptions } from './utils';
 
 export const BulmaValueSelector = ({

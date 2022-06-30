@@ -4,7 +4,7 @@ import type {
   ValueProcessorByRule,
   ValueProcessorLegacy,
 } from '../../types/index.noReact';
-import { DefaultOperatorName } from "../../types/index.noReact";
+import { DefaultOperatorName } from '../../types/index.noReact';
 
 export const numericRegex = /^\s*[+-]?(\d+|\d*\.\d+|\d+\.\d*)([Ee][+-]?\d+)?\s*$/;
 
@@ -52,15 +52,15 @@ export const mongoOperators = {
   notIn: '$nin',
 };
 export const operatorToMongo: Record<string, DefaultOperatorName> = {
-  '$eq': '=',
-  '$ne': '!=',
-  '$lt': '<',
-  '$lte': '<=',
-  '$gt': '>',
-  '$gte': '>=',
-  '$in': 'in',
-  '$nin': 'notIn',
-  'null': 'null',
+  $eq: '=',
+  $ne: '!=',
+  $lt: '<',
+  $lte: '<=',
+  $gt: '>',
+  $gte: '>=',
+  $in: 'in',
+  $nin: 'notIn',
+  null: 'null',
 };
 
 export const celCombinatorMap: Record<DefaultCombinatorName, '&&' | '||'> = {

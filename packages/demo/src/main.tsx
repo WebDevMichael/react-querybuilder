@@ -1,5 +1,29 @@
 import { LinkOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+import {
+  defaultOptions,
+  fields,
+  formatMap,
+  getFormatQueryString,
+  initialQuery,
+  initialQueryIC,
+  optionOrder,
+  optionsMetadata,
+  optionsReducer,
+  type CommonRQBProps,
+  type DemoOptions,
+} from '@frontlinetech/react-querybuilder/dev';
+import {
+  convertToIC,
+  defaultValidator,
+  formatQuery,
+  parseCEL,
+  parseJsonLogic,
+  parseMongoDb,
+  QueryBuilder,
+  type ExportFormat,
+  type FormatQueryOptions,
+} from '@frontlinetech/react-querybuilder/src';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {
   Button,
@@ -28,30 +52,6 @@ import {
   type ReactNode,
 } from 'react';
 import { createRoot } from 'react-dom/client';
-import {
-  defaultOptions,
-  fields,
-  formatMap,
-  getFormatQueryString,
-  initialQuery,
-  initialQueryIC,
-  optionOrder,
-  optionsMetadata,
-  optionsReducer,
-  type CommonRQBProps,
-  type DemoOptions,
-} from '@frontlinetech/react-querybuilder/dev';
-import {
-  convertToIC,
-  defaultValidator,
-  formatQuery,
-  parseCEL,
-  parseJsonLogic,
-  parseMongoDb,
-  QueryBuilder,
-  type ExportFormat,
-  type FormatQueryOptions,
-} from '@frontlinetech/react-querybuilder/src';
 import 'react-querybuilder/src/query-builder.scss';
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
 import json from 'react-syntax-highlighter/dist/esm/languages/hljs/json';

@@ -1,7 +1,7 @@
+import type { NotToggleProps } from '@frontlinetech/react-querybuilder';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import type { ComponentPropsWithoutRef } from 'react';
-import type { NotToggleProps } from '@frontlinetech/react-querybuilder';
 
 type MaterialNotToggleProps = NotToggleProps & ComponentPropsWithoutRef<typeof Switch>;
 

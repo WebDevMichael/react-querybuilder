@@ -1,5 +1,4 @@
-import { EJSON } from "bson";
-import hjson from "hjson";
+import hjson from 'hjson';
 import type {
   DefaultCombinatorName,
   DefaultOperatorName,
@@ -61,8 +60,7 @@ const mapQueryPart = ({
 const isObject = (obj: any) => obj === Object(obj);
 
 function parseMongoDb(mongoQuery: string): DefaultRuleGroupTypeAny {
-  const hjsonParsed = hjson.parse(mongoQuery);
-  const parsedMongoQueryFromString = EJSON.serialize(hjsonParsed);
+  const parsedMongoQueryFromString = hjson.parse(mongoQuery);
   const rootCombinator = getCombinatorString(parsedMongoQueryFromString);
 
   const reduceRules = (
