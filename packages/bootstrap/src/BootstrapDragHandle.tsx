@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import type { DragHandleProps } from 'react-querybuilder';
+import type { DragHandleProps } from '@frontlinetech/react-querybuilder';
 
 export const BootstrapDragHandle = forwardRef<HTMLSpanElement, DragHandleProps>(
   ({ className, title }, dragRef) => (

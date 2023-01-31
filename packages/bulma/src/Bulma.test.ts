@@ -3,7 +3,7 @@ import {
   testNotToggle,
   testValueEditor,
   testValueSelector,
-} from 'react-querybuilder/genericTests';
+} from '@frontlinetech/react-querybuilder/genericTests';
 import { BulmaActionElement, BulmaNotToggle, BulmaValueEditor, BulmaValueSelector } from '.';
 
 testActionElement(BulmaActionElement);

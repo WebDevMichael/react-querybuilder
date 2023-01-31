@@ -40,7 +40,7 @@ import {
   optionsReducer,
   type CommonRQBProps,
   type DemoOptions,
-} from 'react-querybuilder/dev';
+} from '@frontlinetech/react-querybuilder/dev';
 import {
   convertToIC,
   defaultValidator,
@@ -51,7 +51,7 @@ import {
   QueryBuilder,
   type ExportFormat,
   type FormatQueryOptions,
-} from 'react-querybuilder/src';
+} from '@frontlinetech/react-querybuilder/src';
 import 'react-querybuilder/src/query-builder.scss';
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
 import json from 'react-syntax-highlighter/dist/esm/languages/hljs/json';

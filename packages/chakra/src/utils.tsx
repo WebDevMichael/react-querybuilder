@@ -1,1 +1,1 @@
-export { isOptionGroupArray, toOptions } from 'react-querybuilder';
+export { isOptionGroupArray, toOptions } from '@frontlinetech/react-querybuilder';

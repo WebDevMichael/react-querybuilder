@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import type { ValueEditorProps } from 'react-querybuilder';
+import type { ValueEditorProps } from '@frontlinetech/react-querybuilder';
 import { BulmaValueSelector } from './BulmaValueSelector';
 
 export const BulmaValueEditor = ({

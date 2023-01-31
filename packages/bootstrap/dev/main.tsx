@@ -1,6 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { App } from 'react-querybuilder/dev';
+import { App } from '@frontlinetech/react-querybuilder/dev';
 import { bootstrapControlClassnames, bootstrapControlElements } from '../src';
 import './styles.scss';
 

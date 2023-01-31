@@ -1,4 +1,4 @@
-import type { NotToggleProps } from 'react-querybuilder';
+import type { NotToggleProps } from '@frontlinetech/react-querybuilder';
 
 export const BulmaNotToggle = ({
   className,

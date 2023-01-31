@@ -1,4 +1,4 @@
-import { parseSQL } from 'react-querybuilder';
+import { parseSQL } from '@frontlinetech/react-querybuilder';
 
 const sql = `(firstName like 'Stev%' and lastName in ('Vai', 'Vaughan') and age > '28' and (isMusician = TRUE or instrument = 'Guitar'))`;
 

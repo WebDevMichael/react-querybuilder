@@ -1,8 +1,8 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { materialControlElements } from '@react-querybuilder/material';
 import { useState } from 'react';
-import type { Field, RuleGroupType } from 'react-querybuilder';
-import { formatQuery, QueryBuilder } from 'react-querybuilder';
+import type { Field, RuleGroupType } from '@frontlinetech/react-querybuilder';
+import { formatQuery, QueryBuilder } from '@frontlinetech/react-querybuilder';
 
 const muiTheme = createTheme();
 

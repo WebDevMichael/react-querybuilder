@@ -2,7 +2,7 @@ import type {
   DefaultRuleGroupType,
   DefaultRuleGroupTypeIC,
   QueryBuilderProps,
-} from 'react-querybuilder';
+} from '@frontlinetech/react-querybuilder';
 
 export type CIOption =
   | 'showCombinatorsBetweenRules'

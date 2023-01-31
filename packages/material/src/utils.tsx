@@ -1,5 +1,5 @@
 import { ListSubheader, MenuItem } from '@mui/material';
-import { isOptionGroupArray, type NameLabelPair, type OptionGroup } from 'react-querybuilder';
+import { isOptionGroupArray, type NameLabelPair, type OptionGroup } from '@frontlinetech/react-querybuilder';
 
 export { isOptionGroupArray };
 

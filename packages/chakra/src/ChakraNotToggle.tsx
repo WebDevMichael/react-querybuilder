@@ -1,6 +1,6 @@
 import { FormControl, FormLabel, Switch } from '@chakra-ui/react';
 import { useRef, type ComponentPropsWithoutRef } from 'react';
-import type { NotToggleProps } from 'react-querybuilder';
+import type { NotToggleProps } from '@frontlinetech/react-querybuilder';
 
 type ChakraNotToggleProps = NotToggleProps & ComponentPropsWithoutRef<typeof Switch>;
 

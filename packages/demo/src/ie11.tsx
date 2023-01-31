@@ -13,13 +13,13 @@ import {
   optionsReducer,
   type CommonRQBProps,
   type DemoOption,
-} from 'react-querybuilder/dev';
+} from '@frontlinetech/react-querybuilder/dev';
 import {
   defaultValidator,
   QueryBuilder,
   type ExportFormat,
   type QueryBuilderProps,
-} from 'react-querybuilder/src';
+} from '@frontlinetech/react-querybuilder/src';
 import { docsLink } from './constants';
 
 const IE11 = () => {
