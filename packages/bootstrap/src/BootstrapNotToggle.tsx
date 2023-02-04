@@ -1,5 +1,5 @@
-import { useRef } from 'react';
 import type { NotToggleProps } from '@frontlinetech/react-querybuilder';
+import { useRef } from 'react';
 
 export const BootstrapNotToggle = ({
   className,

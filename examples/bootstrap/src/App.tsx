@@ -1,10 +1,10 @@
+import type { Field, RuleGroupType } from '@frontlinetech/react-querybuilder';
+import { formatQuery, QueryBuilder } from '@frontlinetech/react-querybuilder';
 import {
   bootstrapControlClassnames,
   bootstrapControlElements,
 } from '@react-querybuilder/bootstrap';
 import { useState } from 'react';
-import type { Field, RuleGroupType } from '@frontlinetech/react-querybuilder';
-import { formatQuery, QueryBuilder } from '@frontlinetech/react-querybuilder';
 
 const fields: Field[] = [
   { name: 'firstName', label: 'First Name' },

@@ -1,6 +1,6 @@
+import type { QueryBuilderProps } from '@frontlinetech/react-querybuilder/src';
 import { bootstrapControlClassnames } from '@react-querybuilder/bootstrap/src';
 import { lazy } from 'react';
-import type { QueryBuilderProps } from '@frontlinetech/react-querybuilder/src';
 import type { StyleName } from '../constants';
 
 const AntDActionElement = lazy(() => import('./AntDActionElement'));

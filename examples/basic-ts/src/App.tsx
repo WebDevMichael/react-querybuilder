@@ -1,6 +1,6 @@
-import { useState } from 'react';
 import type { Field, RuleGroupType } from '@frontlinetech/react-querybuilder';
 import { formatQuery, QueryBuilder } from '@frontlinetech/react-querybuilder';
+import { useState } from 'react';
 
 const fields: Field[] = [
   { name: 'firstName', label: 'First Name' },

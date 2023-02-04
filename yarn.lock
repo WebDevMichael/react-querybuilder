@@ -1745,8 +1745,10 @@
 
 "@frontlinetech/react-querybuilder@file:/Users/michael/Dev/GitHub/react-querybuilder/packages/react-querybuilder":
   "resolved" "file:packages/react-querybuilder"
-  "version" "5.4.1"
+  "version" "5.5.3"
   dependencies:
+    "bson" "^4.6.4"
+    "hjson" "^3.2.2"
     "immer" "^9.0.6"
     "react-dnd" "^16.0.1"
     "react-dnd-html5-backend" "^16.0.1"
@@ -3277,6 +3279,11 @@
   "version" "2.3.4"
   dependencies:
     "@types/unist" "*"
+
+"@types/hjson@^2.4.3":
+  "integrity" "sha512-EDixutNn3FQwa5HdET+Tx0h7TirP2knJa9TB21ySqr8XVqT/VsvvOwnanTLHUOOpNofcUhkRKhOk0Wh4YD9RSA=="
+  "resolved" "https://registry.npmjs.org/@types/hjson/-/hjson-2.4.3.tgz"
+  "version" "2.4.3"
 
 "@types/hoist-non-react-statics@^3.3.1", "@types/hoist-non-react-statics@>= 3.3.1":
   "integrity" "sha512-iMIqiko6ooLrTh1joXodJK5X9xeEALT1kM5G3ZLhD3hszxBdIEd5C75U834D9mLcINgD4OyZf5uQXjkuYydWvA=="
@@ -5934,6 +5941,11 @@
   "integrity" "sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A=="
   "resolved" "https://registry.npmjs.org/highlight.js/-/highlight.js-10.7.3.tgz"
   "version" "10.7.3"
+
+"hjson@^3.2.2":
+  "integrity" "sha512-MkUeB0cTIlppeSsndgESkfFD21T2nXPRaBStLtf3cAYA2bVEFdXlodZB0TukwZiobPD1Ksax5DK4RTZeaXCI3Q=="
+  "resolved" "https://registry.npmjs.org/hjson/-/hjson-3.2.2.tgz"
+  "version" "3.2.2"
 
 "hoist-non-react-statics@^3.3.0", "hoist-non-react-statics@^3.3.1", "hoist-non-react-statics@^3.3.2":
   "integrity" "sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw=="

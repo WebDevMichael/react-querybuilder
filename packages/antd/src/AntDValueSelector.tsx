@@ -1,6 +1,6 @@
+import type { VersatileSelectorProps } from '@frontlinetech/react-querybuilder';
 import { Select } from 'antd';
 import { useMemo, type ComponentPropsWithoutRef } from 'react';
-import type { VersatileSelectorProps } from '@frontlinetech/react-querybuilder';
 import { toOptions } from './utils';
 
 type AntDValueSelectorProps = VersatileSelectorProps &

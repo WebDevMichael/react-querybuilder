@@ -1,6 +1,6 @@
+import type { ActionWithRulesProps } from '@frontlinetech/react-querybuilder';
 import Button from '@mui/material/Button';
 import type { ComponentPropsWithoutRef } from 'react';
-import type { ActionWithRulesProps } from '@frontlinetech/react-querybuilder';
 
 type MaterialActionProps = ActionWithRulesProps & ComponentPropsWithoutRef<typeof Button>;
 

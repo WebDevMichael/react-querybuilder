@@ -1,6 +1,3 @@
-import 'core-js';
-import { useCallback, useMemo, useReducer, useState } from 'react';
-import { createRoot } from 'react-dom/client';
 import {
   defaultOptions,
   fields,
@@ -20,6 +17,9 @@ import {
   type ExportFormat,
   type QueryBuilderProps,
 } from '@frontlinetech/react-querybuilder/src';
+import 'core-js';
+import { useCallback, useMemo, useReducer, useState } from 'react';
+import { createRoot } from 'react-dom/client';
 import { docsLink } from './constants';
 
 const IE11 = () => {

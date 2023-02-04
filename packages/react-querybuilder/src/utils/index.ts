@@ -6,6 +6,7 @@ export * from './isRuleOrGroupValid';
 export * from './optGroupUtils';
 export * from './parseCEL';
 export * from './parseJsonLogic';
+export * from './parseMongoDb';
 export * from './parseSQL';
 export * from './pathUtils';
 export * from './prepareQueryObjects';

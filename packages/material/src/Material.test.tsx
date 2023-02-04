@@ -1,6 +1,3 @@
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { render, screen, within } from '@testing-library/react';
-import { forwardRef } from 'react';
 import {
   defaultValueEditorProps,
   defaultValueSelectorProps,
@@ -17,6 +14,9 @@ import type {
   ValueEditorProps,
   ValueSelectorProps,
 } from '@frontlinetech/react-querybuilder/src';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { render, screen, within } from '@testing-library/react';
+import { forwardRef } from 'react';
 import 'regenerator-runtime/runtime';
 import {
   MaterialActionElement,

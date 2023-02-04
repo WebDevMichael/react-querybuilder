@@ -1,6 +1,6 @@
 import { Select } from '@chakra-ui/react';
-import type { ComponentPropsWithoutRef } from 'react';
 import type { VersatileSelectorProps } from '@frontlinetech/react-querybuilder';
+import type { ComponentPropsWithoutRef } from 'react';
 import { toOptions } from './utils';
 
 type ChakraValueSelectorProps = VersatileSelectorProps & ComponentPropsWithoutRef<typeof Select>;

@@ -1,6 +1,6 @@
 {
   "name": "@frontlinetech/react-querybuilder",
-  "version": "5.4.1",
+  "version": "5.5.3",
   "description": "The React <QueryBuilder /> component for constructing queries",
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
@@ -42,6 +42,7 @@
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-react": "^7.12.10",
     "@babel/preset-typescript": "^7.12.7",
+    "@types/hjson": "^2.4.3",
     "@types/hoist-non-react-statics": "^3.3.1",
     "@types/jscodeshift": "^0.11.3",
     "@types/json-logic-js": "^2.0.0",
@@ -59,6 +60,7 @@
     "vite-tsconfig-paths": "^3.3.17"
   },
   "dependencies": {
+    "hjson": "^3.2.2",
     "immer": "^9.0.6",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1"
@@ -70,7 +72,7 @@
   "browserslist": "> 0.25%, not dead",
   "scripts": {
     "start": "vite",
-    "build": "yarn build:main && yarn build:css && yarn build:formatQuery && yarn build:parseCEL && yarn build:parseJsonLogic && yarn build:parseSQL && yarn build:transformQuery && yarn build:types",
+    "build": "yarn build:main && yarn build:css && yarn build:formatQuery && yarn build:parseCEL && yarn build:parseJsonLogic && yarn build:parseSQL && yarn build:parseMongoDb && yarn build:transformQuery && yarn build:types",
     "build:main": "vite build",
     "build:css": "sass src/query-builder.scss dist/query-builder.css && copyfiles -f src/query-builder.scss dist",
     "build:types": "tsc --project ./tsconfig.build.json --emitDeclarationOnly && replace \"'ruleGroupsIC'\" \"'./ruleGroupsIC'\" ./dist/types/types -r --silent && yarn build:typesPre45",
@@ -79,12 +81,16 @@
     "build:parseCEL": "vite build --config vite.config.parseCEL.js",
     "build:parseJsonLogic": "vite build --config vite.config.parseJsonLogic.js",
     "build:parseSQL": "vite build --config vite.config.parseSQL.js",
+    "build:parseMongoDb": "vite build --config vite.config.parseMongoDb.js",
     "build:transformQuery": "vite build --config vite.config.transformQuery.js",
     "type-check": "tsc --noEmit",
     "type-check:watch": "yarn type-check --watch",
     "generate-sqlparser": "yarn generate-sqlparser-base && yarn generate-sqlparser-codemod",
     "generate-sqlparser-base": "npx jison src/utils/parseSQL/sql.jison --outfile src/utils/parseSQL/sqlParser.js --module-type commonjs",
     "generate-sqlparser-codemod": "npx jscodeshift -t src/internal/langParser.codemod.js src/utils/parseSQL/sqlParser.js",
+    "generate-mongoDbparser": "yarn generate-mongoDbparser-base && yarn generate-mongoDbparser-codemod",
+    "generate-mongoDbparser-base": "npx jison src/utils/parseMongoDb/mongoDb.jison --outfile src/utils/parseMongoDb/mongoDbParser.js --module-type commonjs",
+    "generate-mongoDbparser-codemod": "npx jscodeshift -t src/internal/langParser.codemod.js src/utils/parseMongoDb/mongoDbParser.js",
     "generate-celparser": "yarn generate-celparser-base && yarn generate-celparser-codemod",
     "generate-celparser-base": "npx jison src/utils/parseCEL/cel.jison --outfile src/utils/parseCEL/celParser.js --module-type commonjs",
     "generate-celparser-codemod": "npx jscodeshift -t src/internal/langParser.codemod.js src/utils/parseCEL/celParser.js"
